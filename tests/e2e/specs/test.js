@@ -1,8 +1,10 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe("My First Test", () => {
-  it("Visits the app root url", () => {
+describe("Renders", () => {
+  it("Has the site header", () => {
     cy.visit("/");
-    cy.contains("h1", "Welcome to Your Vue.js + TypeScript App");
+    cy.contains("h1", "Data Editor for the nested-accordion html-generator");
   });
 });
+
+// TODO more integration tests
