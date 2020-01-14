@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue, mount } from "@vue/test-utils";
+import { createLocalVue, shallowMount } from "@vue/test-utils";
 import Vuex from "vuex";
 import TextAreaOutput from "@/components/TextAreaOutput.vue";
 
@@ -7,31 +7,26 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe("TextAreaOutput.vue", () => {
-  it("renders simple object json", async () => {
-    const getters = {
-      data: () => [
-        {
-          title: "title1"
-        },
-        {
-          title: "title2"
-        }
-      ]
-    };
-
-    const store = new Vuex.Store({
-      getters
+  it("renders displays nicely formatted json", async () => {
+    const wrapper = shallowMount(TextAreaOutput, {
+      mocks: {
+        $store: { state: { data: [{ title: "title1" }, { title: "title2" }] } }
+      }
     });
-    const wrapper = mount(TextAreaOutput, { store, localVue });
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
 
     const t = wrapper.find("textarea");
 
     expect(t.isVisible()).toBe(true);
-
-    // TODO fix this line
-    expect((t.element as HTMLTextAreaElement).value).toBe("html");
+    expect((t.element as HTMLTextAreaElement).value).toBe(
+      `[
+  {
+    "title": "title1"
+  },
+  {
+    "title": "title2"
+  }
+]`
+    );
   });
 
   it("commits a SetData action upon valid change", () => {
@@ -45,7 +40,7 @@ describe("TextAreaOutput.vue", () => {
     expect(mutations.setData).toHaveBeenCalledWith({}, expectedNewData);
   });
 
-  it(" doesn't commit a SetData action upon invalid change", () => {
+  it("doesn't commit a SetData action upon invalid change", () => {
     const mutations = { setData: jest.fn() };
     const store = new Vuex.Store({ mutations });
     const wrapper = shallowMount(TextAreaOutput, { store, localVue });
