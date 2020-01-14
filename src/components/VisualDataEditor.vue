@@ -2,18 +2,7 @@
   <div class="VisualDataEditor">
     <ul>
       <li v-for="section in data" v-bind:key="section.title">
-        {{ section.title }}
-        <p>{{ section.text }}</p>
-        <ul>
-          <li
-            v-for="subsection in section.children"
-            v-bind:key="subsection.title"
-          >
-            {{ subsection.title }}
-            <p>{{ subsection.text }}</p>
-            <p>{{ subsection.children }}</p>
-          </li>
-        </ul>
+        <Section v-bind:sectionData="section" />
       </li>
     </ul>
   </div>
@@ -21,6 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Section from "@/components/Section.vue";
 
 export default Vue.extend({
   name: "VisualDataEditor",
@@ -28,6 +18,9 @@ export default Vue.extend({
     data() {
       return this.$store.state.data;
     }
+  },
+  components: {
+    Section
   }
 });
 </script>
