@@ -19,10 +19,9 @@ export default Vue.extend({
   computed: {
     data: {
       get() {
-        return JSON.stringify(this.$store.state.data, null, 2).replace(
-          /,\n *"id":.*/g,
-          ""
-        );
+        const string: string = JSON.stringify(this.$store.state.data, null, 2);
+        if (string) return string.replace(/,\n *"id":.*/g, "");
+        return undefined;
       },
       set(value: string) {
         // TODO catch json parse errors

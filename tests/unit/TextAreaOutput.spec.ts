@@ -10,7 +10,11 @@ describe("TextAreaOutput.vue", () => {
   it("renders displays nicely formatted json", async () => {
     const wrapper = shallowMount(TextAreaOutput, {
       mocks: {
-        $store: { state: { data: [{ title: "title1" }, { title: "title2" }] } }
+        $store: {
+          state: {
+            data: [{ title: "title1", id: "abcd" }, { title: "title2" }]
+          }
+        }
       }
     });
 
