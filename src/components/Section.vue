@@ -1,34 +1,27 @@
+import EditableSectionList from "*.vue";
 <template>
-  <div class="Section">
+  <div class="Section" v-bind:id="sectionData.id">
     <h5>{{ sectionData.title }}</h5>
     <p>{{ sectionData.text }}</p>
-    <ul>
-      <li
-        v-for="childSection in sectionData.children"
-        v-bind:key="childSection.title"
-      >
-        <Section v-bind:sectionData="childSection" />
-      </li>
-    </ul>
+    <EditableSectionList v-bind:parentId="sectionData.id" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { SectionData } from "@/NestedAccordionData";
+import EditableSectionList from "@/components/EditableSectionList.vue";
 
 export default Vue.extend({
   name: "Section",
-  props: {
-    sectionData: {
-      type: Object as () => SectionData
-    }
+  props: ["sectionData"],
+  components: {
+    EditableSectionList
   }
 });
 </script>
 
 <style scoped>
-li {
+.Section {
   text-align: left;
 }
 </style>

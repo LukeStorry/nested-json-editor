@@ -4,6 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "noImplicitAny" : false, // TODO remove this if we find the fix for circular dependencies
     "importHelpers": true,
     "moduleResolution": "node",
     "esModuleInterop": true,

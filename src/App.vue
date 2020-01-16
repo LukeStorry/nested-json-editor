@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Data Editor for the nested-accordion html-generator</h1>
-    <VisualDataEditor />
+    <EditableSectionList />
     <TextAreaOutput />
   </div>
 </template>
@@ -9,13 +9,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Vuex from "vuex";
-import VisualDataEditor from "./components/VisualDataEditor.vue";
+import EditableSectionList from "./components/EditableSectionList.vue";
 import TextAreaOutput from "./components/TextAreaOutput.vue";
-import { NestedAccordionData } from "./NestedAccordionData";
+import { SectionList } from "./NestedAccordionData";
+import { addIds } from "@/utils/ids";
 
 Vue.use(Vuex);
 
-const initialData: NestedAccordionData = [
+const initialData: SectionList = [
   {
     title: "Grandparent 1",
     text: "Grandparent 1 description.",
@@ -58,13 +59,15 @@ const initialData: NestedAccordionData = [
     ]
   }
 ];
+addIds(initialData);
 
 const store = new Vuex.Store({
   state: {
     data: initialData
   },
   mutations: {
-    setData(state, payload) {
+    setData(state, payload: SectionList) {
+      addIds(payload);
       state.data = payload;
     }
   }
@@ -73,7 +76,7 @@ const store = new Vuex.Store({
 export default Vue.extend({
   name: "app",
   components: {
-    VisualDataEditor,
+    EditableSectionList,
     TextAreaOutput
   },
   store

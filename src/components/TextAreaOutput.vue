@@ -6,8 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Vuex from "vuex";
-import { NestedAccordionData } from "../NestedAccordionData";
+import { SectionList } from "@/NestedAccordionData";
 
 const isValid = (value: any): boolean => {
   if (!(value instanceof Array)) return false;
@@ -20,11 +19,14 @@ export default Vue.extend({
   computed: {
     data: {
       get() {
-        return JSON.stringify(this.$store.state.data, null, 2);
+        return JSON.stringify(this.$store.state.data, null, 2).replace(
+          /,\n *"id":.*/g,
+          ""
+        );
       },
       set(value: string) {
         // TODO catch json parse errors
-        const newData: NestedAccordionData = JSON.parse(value);
+        const newData: SectionList = JSON.parse(value);
 
         if (isValid(newData)) {
           this.$store.commit("setData", newData);
