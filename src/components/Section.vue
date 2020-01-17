@@ -1,21 +1,28 @@
 import EditableSectionList from "*.vue";
 <template>
-  <div class="Section" v-bind:id="sectionData.id">
+  <div :id="sectionData.id" class="Section">
     <h5>{{ sectionData.title }}</h5>
     <p>{{ sectionData.text }}</p>
-    <EditableSectionList v-bind:parentId="sectionData.id" />
+    <EditableSectionList :parent-id="sectionData.id" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import EditableSectionList from "@/components/EditableSectionList.vue";
+import { SectionData } from "@/NestedAccordionData";
+import { findSectionById } from "@/utils/ids";
 
 export default Vue.extend({
   name: "Section",
-  props: ["sectionData"],
   components: {
     EditableSectionList
+  },
+  props: ["sectionId"],
+  computed: {
+    sectionData(): SectionData {
+      return findSectionById(this.sectionId, this.$store.state.data)!;
+    }
   }
 });
 </script>

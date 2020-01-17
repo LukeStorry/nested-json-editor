@@ -1,8 +1,8 @@
 <template>
   <div class="EditableSectionList">
     <ul>
-      <li v-for="section in sections" v-bind:key="section.title">
-        <Section v-bind:sectionData="section" />
+      <li v-for="section in sections" :key="section.title">
+        <Section :section-id="section.id" />
       </li>
     </ul>
   </div>
@@ -19,13 +19,6 @@ Vue.use(VueDraggable);
 
 export default Vue.extend({
   name: "EditableSectionList",
-  props: ["parentId"],
-  computed: {
-    sections(): SectionList {
-      if (!this.parentId) return this.$store.state.data;
-      return findSectionById(this.parentId, this.$store.state.data)!.children!;
-    }
-  },
   // data() {
   //   return {
   //     options: {
@@ -38,6 +31,13 @@ export default Vue.extend({
 
   components: {
     Section: () => import("./Section.vue")
+  },
+  props: ["parentId"],
+  computed: {
+    sections(): SectionList {
+      if (!this.parentId) return this.$store.state.data;
+      return findSectionById(this.parentId, this.$store.state.data)!.children!;
+    }
   }
 });
 </script>
