@@ -10,33 +10,19 @@
 
 <script lang="ts">
 import Vue from "vue";
-import VueDraggable from "vue-draggable";
-import { VueDraggableEvent } from "vue-draggable/types/vue-draggable-options";
-import { findSectionById } from "@/utils/ids";
 import { SectionList } from "@/NestedAccordionData";
-
-Vue.use(VueDraggable);
 
 export default Vue.extend({
   name: "EditableSectionList",
-  // data() {
-  //   return {
-  //     options: {
-  //       onDrop(event: VueDraggableEvent) {
-  //         // eslint-disable-next-line no-console
-  //         console.log(event);
-  //       },
-  //     }
-  //   },
-
   components: {
     Section: () => import("./Section.vue")
   },
-  props: ["parentId"],
+  props: { parentId: { type: String, default: "root" } },
   computed: {
     sections(): SectionList {
-      if (!this.parentId) return this.$store.state.data;
-      return findSectionById(this.parentId, this.$store.state.data)!.children!;
+      return this.parentId === "root"
+        ? this.$store.getters.allSections
+        : this.$store.getters.section(this.parentId).children;
     }
   }
 });

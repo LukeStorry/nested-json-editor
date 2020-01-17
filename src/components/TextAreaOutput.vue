@@ -1,6 +1,6 @@
 <template>
   <div class="TextAreaOutput">
-    <textarea v-model="data" />
+    <textarea v-model="text" />
   </div>
 </template>
 
@@ -17,13 +17,20 @@ const isValid = (value: any): boolean => {
 export default Vue.extend({
   name: "TextAreaOutput",
   computed: {
-    data: {
+    text: {
       get() {
-        const string: string = JSON.stringify(this.$store.state.data, null, 2);
-        if (string) return string.replace(/,\n *"id":.*/g, "");
-        return undefined;
+        console.log("TextAreaOutput get");
+
+        const string: string = JSON.stringify(
+          this.$store.getters.allSections,
+          null,
+          2
+        )!!;
+        return string ? string.replace(/,\n *"id":.*/g, "") : undefined;
       },
       set(value: string) {
+        console.log("TextAreaOutput set");
+
         // TODO catch json parse errors
         const newData: SectionList = JSON.parse(value);
 
