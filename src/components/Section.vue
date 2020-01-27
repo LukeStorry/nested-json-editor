@@ -2,9 +2,8 @@ import EditableSectionList from "*.vue";
 <template>
   <div :id="sectionId" class="Section">
     <input v-model.lazy="title" type="text" />
-    <br />
     <textarea v-model.lazy="text" type="text" />
-    <EditableSectionList :parent-id="sectionData.id" />
+    <EditableSectionList :parent-id="sectionData.id" class="children-box" />
   </div>
 </template>
 
@@ -23,10 +22,6 @@ export default Vue.extend({
     sectionData: {
       get(): SectionData {
         return this.$store.getters.section(this.sectionId);
-      },
-      set(value: SectionData) {
-        // TODO validation?
-        this.$store.commit("updateSection", value);
       }
     },
     title: {
@@ -34,10 +29,7 @@ export default Vue.extend({
         return this.sectionData.title;
       },
       set(value: string) {
-        this.$store.commit("updateSection", {
-          ...this.sectionData,
-          title: value
-        });
+        this.$store.commit("updateTitle", { id: this.sectionId, title: value });
       }
     },
     text: {
@@ -45,10 +37,7 @@ export default Vue.extend({
         return this.sectionData.text || "";
       },
       set(value: string) {
-        this.$store.commit("updateSection", {
-          ...this.sectionData,
-          text: value
-        });
+        this.$store.commit("updateText", { id: this.sectionId, text: value });
       }
     }
   }
@@ -57,6 +46,43 @@ export default Vue.extend({
 
 <style scoped>
 .Section {
-  text-align: left;
+  text-align: right;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: #eee;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input {
+  display: block;
+  padding: 0.2rem;
+  margin: 0.5rem;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+textarea {
+  display: block;
+  height: 2rem;
+  padding: 0.2rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  width: 90%;
+}
+.children-box {
+  border: 1px solid #aaa;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  min-width: 80%;
 }
 </style>

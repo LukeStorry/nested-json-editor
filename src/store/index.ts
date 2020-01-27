@@ -13,6 +13,12 @@ const addIds = (sectionList: SectionList): void =>
     if (section.children) addIds(section.children);
   });
 
+const addEmptyChildren = (sectionList: SectionList): void =>
+  sectionList.forEach(section => {
+    section.children = section.children || [];
+    if (section.children) addEmptyChildren(section.children);
+  });
+
 const findSectionById = (
   id: string | undefined,
   list: SectionList
@@ -32,21 +38,40 @@ export default new Vuex.Store({
     sectionList: placeHolderData as SectionList
   },
   mutations: {
-    setData(state: State, payload: SectionList) {
-      addIds(payload);
+    setAllData(state: State, payload: SectionList) {
+      if (typeof payload[0].id === "undefined") addIds(payload);
+      addEmptyChildren(payload);
       state.sectionList = payload;
     },
-    updateSection(state: State, payload: SectionData) {
-      const old: SectionData = findSectionById(payload.id, state.sectionList)!;
-      old.title = payload.title;
-      old.text = payload.text;
-      old.children = payload.children;
+    updateTitle(state: State, payload: { id: string; title: string }) {
+      const section: SectionData = findSectionById(
+        payload.id,
+        state.sectionList
+      )!;
+      section.title = payload.title;
+    },
+    updateText(state: State, payload: { id: string; text: string }) {
+      const section: SectionData = findSectionById(
+        payload.id,
+        state.sectionList
+      )!;
+      section.text = payload.text;
+    },
+    updateChildren(
+      state: State,
+      payload: { id: string; children: SectionList }
+    ) {
+      const section: SectionData = findSectionById(
+        payload.id,
+        state.sectionList
+      )!;
+      section.children = payload.children;
     }
   },
   getters: {
     allSections: (state: State): SectionList => state.sectionList,
     section: (state: State): ((id: string) => SectionData) => id =>
-      Object.assign({}, findSectionById(id, state.sectionList)!)
+      findSectionById(id, state.sectionList)!
   }
 });
 

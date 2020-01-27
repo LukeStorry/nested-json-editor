@@ -26,7 +26,7 @@ export default Vue.extend({
           null,
           2
         )!!;
-        return string ? string.replace(/,\n *"id":.*/g, "") : undefined;
+        return string ? string.replace(/,\n *"id": ".*"/g, "") : undefined;
       },
       set(value: string) {
         console.log("TextAreaOutput set");
@@ -35,7 +35,7 @@ export default Vue.extend({
         const newData: SectionList = JSON.parse(value);
 
         if (isValid(newData)) {
-          this.$store.commit("setData", newData);
+          this.$store.commit("setAllData", newData);
         }
       }
     }

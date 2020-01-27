@@ -4,18 +4,21 @@
     text: "Grandparent 1 description.",
     children: [
       {
-        title: "Parent 1"
+        title: "Parent 1",
+        children: []
       },
       {
         title: "Parent 2",
         children: [
           {
             title: "First Child",
-            text: "I am the first child"
+            text: "I am the first child",
+            children: []
           },
           {
             title: "Second Child",
-            text: "I am the first child"
+            text: "I am the first child",
+            children: []
           }
         ]
       }
@@ -30,11 +33,13 @@
         children: [
           {
             title: "First Child",
-            text: "I am the first child"
+            text: "I am the first child",
+            children: []
           },
           {
             title: "Second Child",
-            text: "I am the first child"
+            text: "I am the first child",
+            children: []
           }
         ]
       }
