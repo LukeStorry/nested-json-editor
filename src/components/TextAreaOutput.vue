@@ -19,8 +19,6 @@ export default Vue.extend({
   computed: {
     text: {
       get() {
-        console.log("TextAreaOutput get");
-
         const string: string = JSON.stringify(
           this.$store.getters.allSections,
           null,
@@ -29,8 +27,6 @@ export default Vue.extend({
         return string ? string.replace(/,\n *"id": ".*"/g, "") : undefined;
       },
       set(value: string) {
-        console.log("TextAreaOutput set");
-
         // TODO catch json parse errors
         const newData: SectionList = JSON.parse(value);
 

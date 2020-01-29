@@ -1,10 +1,12 @@
 <template>
   <draggable v-model="sections" group="all" :animation="500">
-    <Section
-      v-for="section in sections"
-      :key="section.id"
-      :section-id="section.id"
-    />
+    <div v-for="section in sections" :key="section.id">
+      <button class="remove-button" @click="remove(section.id)">🗑️</button>
+      <Section :section-id="section.id" />
+    </div>
+    <div slot="footer" key="footer" role="group">
+      <button class="add-button" @click="add">+</button>
+    </div>
   </draggable>
 </template>
 
@@ -29,7 +31,6 @@ export default Vue.extend({
           : this.$store.getters.section(this.parentId).children || [];
       },
       set(value: SectionList) {
-        console.log("set", this.parentId);
         if (this.parentId === "root") this.$store.commit("setAllData", value);
         else
           this.$store.commit("updateChildren", {
@@ -38,6 +39,30 @@ export default Vue.extend({
           });
       }
     }
+  },
+  methods: {
+    add() {
+      this.$store.commit("addSection", this.sections);
+    },
+    remove(sectionId: string) {
+      this.$store.commit("removeSection", {
+        sectionList: this.sections,
+        sectionId: sectionId
+      });
+    }
   }
 });
 </script>
+
+<style scoped>
+.add-button {
+  border: none;
+}
+.remove-button {
+  position: relative;
+  border: none;
+  background-color: transparent;
+  left: calc(50% - 1.5rem);
+  top: 1rem;
+}
+</style>

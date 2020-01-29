@@ -11,7 +11,7 @@ import EditableSectionList from "*.vue";
       v-model.lazy="text"
       type="text"
       class="text"
-      placeholder="Section text ..."
+      placeholder="Section text"
     />
     <EditableSectionList :parent-id="sectionData.id" class="children-box" />
   </div>
@@ -56,7 +56,7 @@ export default Vue.extend({
 
 <style scoped>
 .Section {
-  margin: 0.5rem;
+  margin: -0.5rem 0.5rem 0.5rem 0.5rem;
   background-color: white;
   border: 3px solid darkgrey;
   display: flex;
@@ -87,7 +87,6 @@ export default Vue.extend({
 }
 .children-box {
   width: 90%;
-  min-height: 1rem;
   border: 3px solid lightgrey;
   background-color: whitesmoke;
 }

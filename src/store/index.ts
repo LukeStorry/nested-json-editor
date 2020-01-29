@@ -5,11 +5,14 @@ import placeHolderData from "@/store/placeHolderData";
 
 Vue.use(Vuex);
 
+const generateId = () =>
+  Math.random()
+    .toString(36)
+    .substr(2, 9);
+
 const addIds = (sectionList: SectionList): void =>
   sectionList.forEach(section => {
-    section.id = Math.random()
-      .toString(36)
-      .substr(2, 9);
+    section.id = generateId();
     if (section.children) addIds(section.children);
   });
 
@@ -39,9 +42,20 @@ export default new Vuex.Store({
   },
   mutations: {
     setAllData(state: State, payload: SectionList) {
-      if (typeof payload[0].id === "undefined") addIds(payload);
       addEmptyChildren(payload);
       state.sectionList = payload;
+    },
+    addSection(state: State, payload: SectionList) {
+      payload.push({ title: "", text: "", id: generateId(), children: [] });
+    },
+    removeSection(
+      state: State,
+      payload: { sectionList: SectionList; sectionId: string }
+    ) {
+      const indexToRemove: number = payload.sectionList.findIndex(
+        section => section.id === payload.sectionId
+      );
+      payload.sectionList.splice(indexToRemove, 1);
     },
     updateTitle(state: State, payload: { id: string; title: string }) {
       const section: SectionData = findSectionById(
