@@ -4,6 +4,8 @@
 
 Visual editor for nested json files, in Vue.
 
+---
+
 ### [View live site](https://nested-json-editor.netlify.com/)
 
 ---
