@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SectionData, SectionList } from "@/NestedAccordionData";
+import { SectionData, SectionList } from "@/NestedData";
 import placeHolderData from "@/store/placeHolderData";
 
 Vue.use(Vuex);

@@ -20,7 +20,7 @@ import EditableSectionList from "*.vue";
 <script lang="ts">
 import Vue from "vue";
 import EditableSectionList from "@/components/EditableSectionList.vue";
-import { SectionData, SectionList } from "@/NestedAccordionData";
+import { SectionData, SectionList } from "@/NestedData";
 
 export default Vue.extend({
   name: "Section",

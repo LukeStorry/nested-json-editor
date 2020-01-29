@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { SectionList } from "@/NestedAccordionData";
+import { SectionList } from "@/NestedData";
 import draggable from "vuedraggable";
 
 export default Vue.extend({

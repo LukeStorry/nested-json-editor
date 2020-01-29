@@ -3,7 +3,7 @@
 describe("Renders", () => {
   it("Has the site header", () => {
     cy.visit("/");
-    cy.contains("h1", "Data Editor for the nested-accordion html-generator");
+    cy.contains("h1", "Data Editor for Nested JSON");
   });
 });
 

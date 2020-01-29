@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { SectionList } from "@/NestedAccordionData";
+import { SectionList } from "@/NestedData";
 
 const isValid = (value: any): boolean => {
   if (!(value instanceof Array)) return false;
