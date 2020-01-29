@@ -1,8 +1,8 @@
 # nested-json-editor
 
-Visual editor for nested json files, in Vue.
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2a0ddb16-6e6d-4dd8-b16e-9a98c2d3693b/deploy-status)](https://app.netlify.com/sites/nested-json-editor/deploys)
+
+Visual editor for nested json files, in Vue.
 
 ### [View live site](https://nested-json-editor.netlify.com/)
 
