@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Data Editor for the nested-accordion html-generator</h1>
+    <h1>Data Editor for Nested JSON</h1>
     <EditableSectionList />
     <TextAreaOutput />
   </div>
