@@ -1,8 +1,18 @@
 import EditableSectionList from "*.vue";
 <template>
   <div :id="sectionId" class="Section">
-    <input v-model.lazy="title" type="text" />
-    <textarea v-model.lazy="text" type="text" />
+    <input
+      v-model.lazy="title"
+      type="text"
+      class="title"
+      placeholder="Section Title"
+    />
+    <textarea
+      v-model.lazy="text"
+      type="text"
+      class="text"
+      placeholder="Section text ..."
+    />
     <EditableSectionList :parent-id="sectionData.id" class="children-box" />
   </div>
 </template>
@@ -46,43 +56,39 @@ export default Vue.extend({
 
 <style scoped>
 .Section {
-  text-align: right;
   margin: 0.5rem;
-  padding: 0.5rem;
-  background-color: #eee;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 3rem;
+  background-color: white;
+  border: 3px solid darkgrey;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 1rem;
 }
-input {
+.title {
   display: block;
-  padding: 0.2rem;
-  margin: 0.5rem;
+  width: 100%;
   height: 1.5rem;
+  padding: 0.2rem;
+  border: none;
+  text-align: center;
   font-size: 1.2rem;
   font-weight: 400;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  background-color: darkgrey;
 }
-textarea {
+.text {
   display: block;
+  width: 90%;
   height: 2rem;
   padding: 0.2rem;
+  border: none;
   margin: 0.5rem;
   font-size: 1rem;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  width: 90%;
+  resize: vertical;
 }
 .children-box {
-  border: 1px solid #aaa;
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  min-width: 80%;
+  width: 90%;
+  min-height: 1rem;
+  border: 3px solid lightgrey;
+  background-color: whitesmoke;
 }
 </style>
