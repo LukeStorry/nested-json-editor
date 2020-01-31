@@ -42,6 +42,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setAllData(state: State, payload: SectionList) {
+      addIds(payload);
       addEmptyChildren(payload);
       state.sectionList = payload;
     },
