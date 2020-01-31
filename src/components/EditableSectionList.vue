@@ -57,12 +57,13 @@ export default Vue.extend({
 <style scoped>
 .add-button {
   border: none;
+  background-color: transparent;
 }
 .remove-button {
   position: relative;
   border: none;
   background-color: transparent;
   left: calc(50% - 1.5rem);
-  top: 1rem;
+  top: 0.6rem;
 }
 </style>

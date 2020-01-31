@@ -31,6 +31,20 @@ const findSectionById = (
   return undefined;
 };
 
+const calculateDepth = (
+  id: string,
+  list: SectionList,
+  depth = 0
+): number | undefined => {
+  for (const section of list) {
+    if (section.id === id) return depth;
+    if (!section.children) continue;
+    const found = calculateDepth(id, section.children, depth + 1);
+    if (found) return found;
+  }
+  return undefined;
+};
+
 addMissingFields(placeHolderData);
 export default new Vuex.Store({
   state: {
@@ -81,7 +95,9 @@ export default new Vuex.Store({
   getters: {
     allSections: (state: State): SectionList => state.sectionList,
     section: (state: State): ((id: string) => SectionData) => id =>
-      findSectionById(id, state.sectionList)!
+      findSectionById(id, state.sectionList)!,
+    sectionDepth: (state: State): ((id: string) => number) => id =>
+      calculateDepth(id, state.sectionList)!
   }
 });
 

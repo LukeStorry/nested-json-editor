@@ -1,11 +1,16 @@
 import EditableSectionList from "*.vue";
 <template>
-  <div :id="sectionId" class="Section">
+  <div
+    :id="sectionId"
+    class="Section"
+    :style="{ border: `3px solid ${color}` }"
+  >
     <input
       v-model.lazy="title"
       type="text"
       class="title"
       placeholder="Section Title"
+      :style="{ 'background-color': color }"
     />
     <textarea
       v-model.lazy="text"
@@ -13,7 +18,11 @@ import EditableSectionList from "*.vue";
       class="text"
       placeholder="Section text"
     />
-    <EditableSectionList :parent-id="sectionData.id" class="children-box" />
+    <EditableSectionList
+      :parent-id="sectionData.id"
+      class="children-box"
+      :style="{ 'background-color': `${color}22` }"
+    />
   </div>
 </template>
 
@@ -32,6 +41,19 @@ export default Vue.extend({
     sectionData: {
       get(): SectionData {
         return this.$store.getters.section(this.sectionId);
+      }
+    },
+    color: {
+      get(): string {
+        const options = [
+          "#ff5555",
+          "#ff7755",
+          "#fff055",
+          "#99cc33",
+          "#5699ff",
+          "#cc99ff"
+        ];
+        return options[this.$store.getters.sectionDepth(this.sectionId)];
       }
     },
     title: {
@@ -56,14 +78,16 @@ export default Vue.extend({
 
 <style scoped>
 .Section {
-  margin: -0.5rem 0.5rem 0.5rem 0.5rem;
+  margin: -1rem auto 0.5rem auto;
   background-color: white;
   border: 3px solid darkgrey;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 1rem;
+  max-width: 60rem;
 }
+
 .title {
   display: block;
   width: 100%;
@@ -75,6 +99,7 @@ export default Vue.extend({
   font-weight: 400;
   background-color: darkgrey;
 }
+
 .text {
   display: block;
   width: 90%;
@@ -85,9 +110,10 @@ export default Vue.extend({
   font-size: 1rem;
   resize: vertical;
 }
+
 .children-box {
   width: 90%;
-  border: 3px solid lightgrey;
   background-color: whitesmoke;
+  padding: 0.5rem;
 }
 </style>
