@@ -10,16 +10,12 @@ const generateId = () =>
     .toString(36)
     .substr(2, 9);
 
-const addIds = (sectionList: SectionList): void =>
+const addMissingFields = (sectionList: SectionList): void =>
   sectionList.forEach(section => {
-    section.id = generateId();
-    if (section.children) addIds(section.children);
-  });
-
-const addEmptyChildren = (sectionList: SectionList): void =>
-  sectionList.forEach(section => {
+    section.id = section.id || generateId();
+    section.text = section.text || "";
     section.children = section.children || [];
-    if (section.children) addEmptyChildren(section.children);
+    if (section.children) addMissingFields(section.children);
   });
 
 const findSectionById = (
@@ -35,15 +31,14 @@ const findSectionById = (
   return undefined;
 };
 
-addIds(placeHolderData);
+addMissingFields(placeHolderData);
 export default new Vuex.Store({
   state: {
     sectionList: placeHolderData as SectionList
   },
   mutations: {
     setAllData(state: State, payload: SectionList) {
-      addIds(payload);
-      addEmptyChildren(payload);
+      addMissingFields(payload);
       state.sectionList = payload;
     },
     addSection(state: State, payload: SectionList) {
