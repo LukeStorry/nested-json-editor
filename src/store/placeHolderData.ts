@@ -17,7 +17,7 @@
           },
           {
             title: "Second Child",
-            text: "I am the first child",
+            text: "I am the second child",
             children: []
           }
         ]
@@ -32,13 +32,13 @@
         title: "Parent 3",
         children: [
           {
-            title: "First Child",
-            text: "I am the first child",
+            title: "Third Child",
+            text: "I am the third child",
             children: []
           },
           {
-            title: "Second Child",
-            text: "I am the first child",
+            title: "Fourth Child",
+            text: "I am the fourth child",
             children: []
           }
         ]

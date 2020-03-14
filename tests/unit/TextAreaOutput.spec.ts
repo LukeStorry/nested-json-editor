@@ -7,50 +7,24 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe("TextAreaOutput.vue", () => {
-  it("renders displays nicely formatted json", async () => {
+  it("displays given text", async () => {
     const wrapper = shallowMount(TextAreaOutput, {
-      mocks: {
-        $store: {
-          state: {
-            data: [{ title: "title1", id: "abcd" }, { title: "title2" }]
-          }
-        }
-      }
+      mocks: { $store: { getters: { json: "TEST DISPLAY TEXT" } } }
     });
 
     const t = wrapper.find("textarea");
 
     expect(t.isVisible()).toBe(true);
-    expect((t.element as HTMLTextAreaElement).value).toBe(
-      `[
-  {
-    "title": "title1"
-  },
-  {
-    "title": "title2"
-  }
-]`
-    );
+    expect((t.element as HTMLTextAreaElement).value).toBe("TEST DISPLAY TEXT");
   });
 
-  it("commits a SetData action upon valid change", () => {
-    const mutations = { setData: jest.fn() };
+  it("commits SET_JSON mutation upon change", () => {
+    const mutations = { SET_JSON: jest.fn() };
     const store = new Vuex.Store({ mutations });
     const wrapper = shallowMount(TextAreaOutput, { store, localVue });
 
-    wrapper.find("textarea").setValue('[{"title":"test input title"}]');
+    wrapper.find("textarea").setValue("TEST INPUT TEXT");
 
-    const expectedNewData = [{ title: "test input title" }];
-    expect(mutations.setData).toHaveBeenCalledWith({}, expectedNewData);
-  });
-
-  it("doesn't commit a SetData action upon invalid change", () => {
-    const mutations = { setData: jest.fn() };
-    const store = new Vuex.Store({ mutations });
-    const wrapper = shallowMount(TextAreaOutput, { store, localVue });
-
-    wrapper.find("textarea").setValue('{"bad":"bad"}');
-
-    expect(mutations.setData).not.toHaveBeenCalled();
+    expect(mutations.SET_JSON).toHaveBeenCalledWith({}, "TEST INPUT TEXT");
   });
 });
