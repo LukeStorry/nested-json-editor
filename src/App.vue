@@ -12,14 +12,14 @@ import EditableSectionList from "@/components/EditableSectionList.vue";
 import TextAreaOutput from "@/components/TextAreaOutput.vue";
 import store from "@/store";
 
-export default Vue.extend({
-  name: "App",
+export default {
+  store,
+  name: "NestedAccordionEditor",
   components: {
     EditableSectionList,
     TextAreaOutput
-  },
-  store
-});
+  }
+};
 </script>
 
 <style>

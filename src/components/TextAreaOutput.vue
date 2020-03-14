@@ -13,33 +13,17 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { SectionList } from "@/NestedData";
-
-const isValid = (value: any): boolean => {
-  if (!(value instanceof Array)) return false;
-  // TODO make proper validator
-  return "title" in value[0];
-};
+import { Mutations } from "@/store/mutations";
 
 export default Vue.extend({
   name: "TextAreaOutput",
   computed: {
     text: {
       get() {
-        const string: string = JSON.stringify(
-          this.$store.getters.allSections,
-          null,
-          2
-        )!!;
-        return string ? string.replace(/,\n *"id": ".*"/g, "") : "";
+        return this.$store.getters.json;
       },
       set(value: string) {
-        // TODO catch json parse errors
-        const newData: SectionList = JSON.parse(value);
-
-        if (isValid(newData)) {
-          this.$store.commit("setAllData", newData);
-        }
+        this.$store.commit(Mutations.SET_JSON, value);
       }
     }
   }

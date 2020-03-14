@@ -30,6 +30,7 @@ import EditableSectionList from "*.vue";
 import Vue from "vue";
 import EditableSectionList from "@/components/EditableSectionList.vue";
 import { SectionData, SectionList } from "@/NestedData";
+import { Mutations } from "@/store/mutations";
 
 export default Vue.extend({
   name: "Section",
@@ -61,7 +62,10 @@ export default Vue.extend({
         return this.sectionData.title;
       },
       set(value: string) {
-        this.$store.commit("updateTitle", { id: this.sectionId, title: value });
+        this.$store.commit(Mutations.UPDATE_TITLE, {
+          id: this.sectionId,
+          title: value
+        });
       }
     },
     text: {
@@ -69,7 +73,10 @@ export default Vue.extend({
         return this.sectionData.text || "";
       },
       set(value: string) {
-        this.$store.commit("updateText", { id: this.sectionId, text: value });
+        this.$store.commit(Mutations.UPDATE_TEXT, {
+          id: this.sectionId,
+          text: value
+        });
       }
     }
   }

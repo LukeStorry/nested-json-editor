@@ -1,106 +1,21 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SectionData, SectionList } from "@/NestedData";
+import { SectionList } from "@/NestedData";
 import placeHolderData from "@/store/placeHolderData";
+import { addMissingFields } from "./utils";
+import { mutations } from "./mutations";
+import { getters } from "./getters";
 
 Vue.use(Vuex);
-
-const generateId = () =>
-  Math.random()
-    .toString(36)
-    .substr(2, 9);
-
-const addMissingFields = (sectionList: SectionList): void =>
-  sectionList.forEach(section => {
-    section.id = section.id || generateId();
-    section.text = section.text || "";
-    section.children = section.children || [];
-    if (section.children) addMissingFields(section.children);
-  });
-
-const findSectionById = (
-  id: string | undefined,
-  list: SectionList
-): SectionData | undefined => {
-  for (const section of list) {
-    if (section.id === id) return section;
-    if (!section.children) continue;
-    const found = findSectionById(id, section.children);
-    if (found) return found;
-  }
-  return undefined;
-};
-
-const calculateDepth = (
-  id: string,
-  list: SectionList,
-  depth = 0
-): number | undefined => {
-  for (const section of list) {
-    if (section.id === id) return depth;
-    if (!section.children) continue;
-    const found = calculateDepth(id, section.children, depth + 1);
-    if (found) return found;
-  }
-  return undefined;
-};
-
-addMissingFields(placeHolderData);
-export default new Vuex.Store({
-  state: {
-    sectionList: placeHolderData as SectionList
-  },
-  mutations: {
-    setAllData(state: State, payload: SectionList) {
-      addMissingFields(payload);
-      state.sectionList = payload;
-    },
-    addSection(state: State, payload: SectionList) {
-      payload.push({ title: "", text: "", id: generateId(), children: [] });
-    },
-    removeSection(
-      state: State,
-      payload: { sectionList: SectionList; sectionId: string }
-    ) {
-      const indexToRemove: number = payload.sectionList.findIndex(
-        section => section.id === payload.sectionId
-      );
-      payload.sectionList.splice(indexToRemove, 1);
-    },
-    updateTitle(state: State, payload: { id: string; title: string }) {
-      const section: SectionData = findSectionById(
-        payload.id,
-        state.sectionList
-      )!;
-      section.title = payload.title;
-    },
-    updateText(state: State, payload: { id: string; text: string }) {
-      const section: SectionData = findSectionById(
-        payload.id,
-        state.sectionList
-      )!;
-      section.text = payload.text;
-    },
-    updateChildren(
-      state: State,
-      payload: { id: string; children: SectionList }
-    ) {
-      const section: SectionData = findSectionById(
-        payload.id,
-        state.sectionList
-      )!;
-      section.children = payload.children;
-    }
-  },
-  getters: {
-    allSections: (state: State): SectionList => state.sectionList,
-    section: (state: State): ((id: string) => SectionData) => id =>
-      findSectionById(id, state.sectionList)!,
-    sectionDepth: (state: State): ((id: string) => number) => id =>
-      calculateDepth(id, state.sectionList)!
-  }
-});
 
 export interface State {
   sectionList: SectionList;
 }
+
+export default new Vuex.Store<State>({
+  state: {
+    sectionList: placeHolderData.map(addMissingFields)
+  },
+  mutations,
+  getters
+});

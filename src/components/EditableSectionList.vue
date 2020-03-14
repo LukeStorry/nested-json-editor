@@ -14,6 +14,7 @@
 import Vue from "vue";
 import { SectionList } from "@/NestedData";
 import draggable from "vuedraggable";
+import { Mutations } from "@/store/mutations";
 
 export default Vue.extend({
   name: "EditableSectionList",
@@ -26,26 +27,22 @@ export default Vue.extend({
   computed: {
     sections: {
       get(): SectionList {
-        return this.parentId === "root"
-          ? this.$store.getters.allSections
-          : this.$store.getters.section(this.parentId).children || [];
+        return this.$store.getters.children(this.parentId);
       },
       set(value: SectionList) {
-        if (this.parentId === "root") this.$store.commit("setAllData", value);
-        else
-          this.$store.commit("updateChildren", {
-            id: this.parentId,
-            children: value
-          });
+        this.$store.commit(Mutations.UPDATE_CHILDREN, {
+          id: this.parentId,
+          children: value
+        });
       }
     }
   },
   methods: {
     add() {
-      this.$store.commit("addSection", this.sections);
+      this.$store.commit(Mutations.ADD_SECTION, this.sections);
     },
     remove(sectionId: string) {
-      this.$store.commit("removeSection", {
+      this.$store.commit(Mutations.REMOVE_SECTION, {
         sectionList: this.sections,
         sectionId: sectionId
       });
